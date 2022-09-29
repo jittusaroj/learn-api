@@ -1,0 +1,11 @@
+.product-img{
+    height: 200px;
+    object-fit: contain;
+}
+.card-pirce{
+    color: rgb(50, 112, 50);
+    font-weight: 700;
+}
+.raing-star{
+    color: yellow;
+}

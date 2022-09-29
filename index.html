@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="Description" content="Enter your description here" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>API implementation</title>
+</head>
+
+<body>
+
+    <section>
+        <div class="container">
+            <div class="heading my-5">
+                <h3>My Products</h3>
+            </div>
+            <div class="row" id="products">
+
+            </div>
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.5.4/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.0-beta1/js/bootstrap.min.js"></script>
+    <script type="module">
+        import {PRODUCT_URL} from './assets/js/constants.js';
+        import { handleService } from "./assets/js/services/api.js";
+        addEventListener('DOMContentLoaded', async () => { 
+            const products = await handleService(PRODUCT_URL);
+            console.log({products})
+            const photos = await handleService("https://jsonplaceholder.typicode.com/photos");
+            console.log({ photos })
+
+            const login = await handleService("https://kachabazar.vercel.app/api/user/login","POST", { registerEmail: "justin@gmail.com", password: "12345678" });
+            console.log({ login })
+            const productsArea = document.getElementById("products");
+            let productData='';
+            products.forEach((product) => {
+                productData += `
+                <div class="col-xxl-3 col-xl-3 col-md-4 col-sm-6 col-xs-12 col-12 mb-2">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body">
+                            <img src="${product.image}" alt="" class="card-img-top product-img">
+                            <h5 class="card-title">${product.title}</h5>
+                            <span class="badge badge-success bg-success text-white">${product.category}</span>
+                            <p class="card-pirce">Rs. ${product.price}</p>
+                            <p> <i class="fa fa-star raing-star" aria-hidden="true"></i> ${product.rating.rate}  ( ${product.rating.count})</p>
+                        </div>
+                    </div>
+                </div>`;
+                productsArea.innerHTML = productData; 
+            });    
+        });
+    </script>
+    
+</body>
+
+</html>
